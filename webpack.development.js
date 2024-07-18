@@ -1,62 +1,44 @@
-var path = require('path');
-var webpack = require('webpack');
-var nodeExternals = require('webpack-node-externals');
+const path = require('path');
+const webpack = require('webpack');
+const nodeExternals = require('webpack-node-externals');
 
-module.exports = function (env) {
+module.exports = (env) => {
     return [
-
-
-        ///----------------------------
         {
-
             mode: 'development',
             target: 'node',
-            devtool: '#source-map',
+            devtool: 'source-map',
+            externals: [nodeExternals()], // This line is added to exclude node modules from the bundle
             node: {
-                __dirname: true,
-                __filename: true,
-            },
-            entry: {
-
-                'index': './src/index.js',
-               
-
-            },
-            output: {
-                libraryTarget: 'commonjs2',
-                path: path.join(__dirname, './dist'),
-                filename: '[name].js',
-
+                // In more recent versions of Webpack, you might not need to manually set these properties
+                // as Webpack will handle them more intelligently. However, if you encounter issues with __dirname or __filename,
+                // you can uncomment these lines and adjust their values.
+                // __dirname: false,
+                // __filename: false,
             },
             module: {
                 rules: [
-
-
                     {
                         test: /\.js$/,
-                        loader: 'babel-loader',
-                        //exclude: /node_modules/
+                        exclude: /node_modules/,
+                        use: {
+                            loader: 'babel-loader',
+                            options: {
+                                presets: ['@babel/preset-env'],
+                            },
+                        },
                     },
-                    {
-                        test: /\.html$/,
-                        loader: 'html-loader',
-                        query: {
-                            minimize: false
-                        }
-                    },
-
-
-                ]
+                    // Add loaders for other file types here, e.g., CSS, HTML, etc.
+                ],
             },
-            //externals: [/^(?!\.|\/).+/i,],
-            externals: [nodeExternals()],
             plugins: [
-                new webpack.DefinePlugin({
-                    'process.env': { NODE_ENV: JSON.stringify(process.env.NODE_ENV || "development") }
-                }),
-            ]
+                // Add any other plugins you need here
+            ],
+            output: {
+                path: path.resolve(__dirname, 'dist'),
+                filename: 'index.js',
+            },
+            // Add any other Webpack configuration options you need here
         },
-
-
-    ]
-}
+    ];
+};

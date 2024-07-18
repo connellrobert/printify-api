@@ -1,1 +1,314 @@
-module.exports=function(t){var o={};function s(n){if(o[n])return o[n].exports;var i=o[n]={i:n,l:!1,exports:{}};return t[n].call(i.exports,i,i.exports,s),i.l=!0,i.exports}return s.m=t,s.c=o,s.d=function(t,o,n){s.o(t,o)||Object.defineProperty(t,o,{enumerable:!0,get:n})},s.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},s.t=function(t,o){if(1&o&&(t=s(t)),8&o)return t;if(4&o&&"object"==typeof t&&t&&t.__esModule)return t;var n=Object.create(null);if(s.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:t}),2&o&&"string"!=typeof t)for(var i in t)s.d(n,i,function(o){return t[o]}.bind(null,i));return n},s.n=function(t){var o=t&&t.__esModule?function(){return t.default}:function(){return t};return s.d(o,"a",o),o},s.o=function(t,o){return Object.prototype.hasOwnProperty.call(t,o)},s.p="",s(s.s=0)}([function(t,o,s){"use strict";var n=s(1),i=s(2),e=s(3).EventEmitter,r=s(4),c=s(5),u=s(6);function a(t){e.call(this),this.opts=Object.assign({version:"v1",access_token:"",shop_id:""},t||{}),this.baseURL=["https://api.printify.com",this.opts.version].join("/"),this.axios=i.create({baseURL:this.baseURL,headers:{Authorization:"Bearer "+this.opts.access_token}}),this.axios.interceptors.response.use((function(t){return t&&t.data?t.data:null}),(function(t){return console.log(n.inspect(t)),Promise.reject(t&&t.response?t.response.data:t)})),this.Product=new r(this.axios,this.opts.shop_id),this.Order=new u(this.axios,this.opts.shop_id),this.Webhook=new c(this.axios,this.opts.shop_id)}a.prototype={shops:function(){return this.axios.get("shops.json")},catalogues:function(){return this.axios.get("catalog/blueprints.json")},catalog:function(t){return this.axios.get("catalog/blueprints/".concat(t,".json"))},providers:function(t){return t?this.axios.get("catalog/blueprints/".concat(t,"/print_providers.json")):this.axios.get("catalog/print_providers.json")},provider:function(t){return this.axios.get("catalog/print_providers/".concat(t,".json"))},variants:function(t,o){return this.axios.get("catalog/blueprints/".concat(t,"/print_providers/").concat(o,"/variants.json"))},shipping:function(t,o){return this.axios.get("catalog/blueprints/".concat(t,"/print_providers/").concat(o,"/shipping.json"))},upload:function(t){return this.axios.post("uploads/images.json",t)}},n.inherits(a,e),t.exports=a},function(t,o){t.exports=require("util")},function(t,o){t.exports=require("axios")},function(t,o){t.exports=require("events")},function(t,o){var s=function(t,o){this.axios=t,this.shop_id=o};s.prototype={id:function(t){return t||this.shop_id},fetch:function(t,o){return o=this.id(o),this.axios.get("shops/".concat(o,"/products.json"),t)},lists:function(t,o){return this.fetch(t,o)},info:function(t,o){return o=this.id(o),this.axios.get("shops/".concat(o,"/products/").concat(t,".json"))},create:function(t,o){return o=this.id(o),this.axios.post("shops/".concat(o,"/products.json"),t)},update:function(t,o){o=this.id(o);var s=t.id;return this.axios.put("shops/".concat(o,"/products/").concat(s,".json"))},delete:function(t,o){return o=this.id(o),this.axios.delete("shops/".concat(o,"/products/").concat(t,".json"),data)},publish:function(t,o,s){switch(s=this.id(s),o){case"success":return this.axios.post("shops/".concat(s,"/products/").concat(t,"/publishing_succeeded.json"));case"error":return this.axios.post("shops/".concat(s,"/products/").concat(t,"/publishing_failed.json"));default:return this.axios.post("shops/".concat(s,"/products/").concat(t,"/publish.json"))}}},t.exports=s},function(t,o){var s=function(t,o){this.axios=t,this.shop_id=o};s.prototype={id:function(t){return t||this.shop_id},fetch:function(t){return t=this.id(t),this.axios.get("shops/".concat(t,"/webhooks.json"))},lists:function(t){return this.fetch(t)},info:function(t,o){return o=this.id(o),this.axios.get("shops/".concat(o,"/webhooks/").concat(t,".json"))},create:function(t,o){return o=this.id(o),this.axios.post("shops/".concat(o,"/webhooks.json"),t)},update:function(t,o){o=this.id(o);var s=t.id;return this.axios.post("shops/".concat(o,"/webhooks/").concat(s,".json"),t)},delete:function(t,o){return o=this.id(o),this.axios.delete("shops/".concat(o,"/webhooks/").concat(t,".json"))}},t.exports=s},function(t,o){var s=function(t,o){this.axios=t,this.shop_id=o};s.prototype={id:function(t){return t||this.shop_id},fetch:function(t){return t=this.id(t),this.axios.get("shops/".concat(t,"/orders.json"))},lists:function(t){return this.fetch(t)},info:function(t,o){return o=this.id(o),this.axios.get("shops/".concat(o,"/orders/").concat(t,".json"))},create:function(t,o){return o=this.id(o),this.axios.post("shops/".concat(o,"/orders.json"),t)},send_to_production:function(t,o){return o=this.id(o),this.axios.post("shops/".concat(o,"/orders/").concat(t,"/send_to_production.json"))},publish:function(t,o){return this.send_to_production(t,o)},shipping_cost:function(t,o){return o=this.id(o),this.axios.post("shops/".concat(o,"/orders/shipping.json"),t)}},t.exports=s}]);
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./src/index.js":
+/*!**********************!*\
+  !*** ./src/index.js ***!
+  \**********************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+// Invoke 'strict' JavaScript mode
+
+
+var util = __webpack_require__(/*! util */ "util"),
+  axios = __webpack_require__(/*! axios */ "axios"),
+  EventEmitter = (__webpack_require__(/*! events */ "events").EventEmitter),
+  Product = __webpack_require__(/*! ./product */ "./src/product.js"),
+  Webhook = __webpack_require__(/*! ./webhook */ "./src/webhook.js"),
+  Order = __webpack_require__(/*! ./order */ "./src/order.js");
+function Printify(option) {
+  EventEmitter.call(this);
+  this.opts = Object.assign({
+    version: 'v1',
+    access_token: '',
+    shop_id: ''
+  }, option || {});
+  this.baseURL = ['https://api.printify.com', this.opts.version].join('/');
+  this.axios = axios.create({
+    baseURL: this.baseURL,
+    headers: {
+      'Authorization': 'Bearer ' + this.opts.access_token
+    }
+  });
+  this.axios.interceptors.response.use(function (response) {
+    // Do something with response data
+    //console.log(response);
+    return response && response.data ? response.data : null;
+  }, function (error) {
+    // Do something with response error       
+    console.log(util.inspect(error));
+    return Promise.reject(error && error.response ? error.response.data : error);
+  });
+  this.Product = new Product(this.axios, this.opts.shop_id);
+  this.Order = new Order(this.axios, this.opts.shop_id);
+  this.Webhook = new Webhook(this.axios, this.opts.shop_id);
+}
+Printify.prototype = {
+  shops: function shops() {
+    return this.axios.get('shops.json');
+  },
+  // Retrieve a list of all available blueprints
+  catalogues: function catalogues() {
+    return this.axios.get('catalog/blueprints.json');
+  },
+  // Retrieve a specific blueprint
+  catalog: function catalog(id) {
+    return this.axios.get("catalog/blueprints/".concat(id, ".json"));
+  },
+  // Retrieve a list of all print providers that fulfill orders for a specific blueprint
+  // if id is undefined Retrieve a list of all available print-providers
+  providers: function providers(id) {
+    return id ? this.axios.get("catalog/blueprints/".concat(id, "/print_providers.json")) : this.axios.get('catalog/print_providers.json');
+  },
+  // Retrieve a specific print-provider and a list of associated blueprint offerings
+  provider: function provider(id) {
+    return this.axios.get("catalog/print_providers/".concat(id, ".json"));
+  },
+  // Retrieve a list of all variants of a blueprint from a specific print provider
+  variants: function variants(cid, pid) {
+    return this.axios.get("catalog/blueprints/".concat(cid, "/print_providers/").concat(pid, "/variants.json"));
+  },
+  // Retrieve the shipping information for all variants of a blueprint from a specific print provider
+  shipping: function shipping(cid, pid) {
+    return this.axios.get("catalog/blueprints/".concat(cid, "/print_providers/").concat(pid, "/shipping.json"));
+  },
+  // Upload artwork to a Printify account's media library
+  upload: function upload(data) {
+    return this.axios.post('uploads/images.json', data);
+  }
+};
+util.inherits(Printify, EventEmitter);
+module.exports = Printify;
+
+/***/ }),
+
+/***/ "./src/order.js":
+/*!**********************!*\
+  !*** ./src/order.js ***!
+  \**********************/
+/***/ ((module) => {
+
+var Order = function Order(axios, shop_id) {
+  this.axios = axios;
+  this.shop_id = shop_id;
+};
+Order.prototype = {
+  id: function id(_id) {
+    return _id ? _id : this.shop_id;
+  },
+  // Retrieve a list of orders
+  fetch: function fetch(shop_id) {
+    shop_id = this.id(shop_id);
+    return this.axios.get("shops/".concat(shop_id, "/orders.json"));
+  },
+  lists: function lists(shop_id) {
+    return this.fetch(shop_id);
+  },
+  // Get order details by id
+  info: function info(id, shop_id) {
+    shop_id = this.id(shop_id);
+    return this.axios.get("shops/".concat(shop_id, "/orders/").concat(id, ".json"));
+  },
+  // Submit an order
+  create: function create(data, shop_id) {
+    shop_id = this.id(shop_id);
+    return this.axios.post("shops/".concat(shop_id, "/orders.json"), data);
+  },
+  // Send an existing order to production
+  send_to_production: function send_to_production(id, shop_id) {
+    shop_id = this.id(shop_id);
+    return this.axios.post("shops/".concat(shop_id, "/orders/").concat(id, "/send_to_production.json"));
+  },
+  publish: function publish(id, shop_id) {
+    return this.send_to_production(id, shop_id);
+  },
+  // Calculate the shipping cost of an order
+  shipping_cost: function shipping_cost(order, shop_id) {
+    shop_id = this.id(shop_id);
+    return this.axios.post("shops/".concat(shop_id, "/orders/shipping.json"), order);
+  }
+};
+module.exports = Order;
+
+/***/ }),
+
+/***/ "./src/product.js":
+/*!************************!*\
+  !*** ./src/product.js ***!
+  \************************/
+/***/ ((module) => {
+
+var Product = function Product(axios, shop_id) {
+  this.axios = axios;
+  this.shop_id = shop_id;
+};
+Product.prototype = {
+  id: function id(_id) {
+    return _id ? _id : this.shop_id;
+  },
+  // Retrieve a list of all products
+  fetch: function fetch(payload, shop_id) {
+    shop_id = this.id(shop_id);
+    return this.axios.get("shops/".concat(shop_id, "/products.json"), payload);
+  },
+  lists: function lists(payload, shop_id) {
+    return this.fetch(payload, shop_id);
+  },
+  // Retrieve a product
+  info: function info(id, shop_id) {
+    shop_id = this.id(shop_id);
+    return this.axios.get("shops/".concat(shop_id, "/products/").concat(id, ".json"));
+  },
+  // Create a new product
+  create: function create(data, shop_id) {
+    shop_id = this.id(shop_id);
+    return this.axios.post("shops/".concat(shop_id, "/products.json"), data);
+  },
+  // Update a product
+  update: function update(data, shop_id) {
+    shop_id = this.id(shop_id);
+    var id = data.id;
+    return this.axios.put("shops/".concat(shop_id, "/products/").concat(id, ".json"));
+  },
+  // Delete a product
+  "delete": function _delete(id, shop_id) {
+    shop_id = this.id(shop_id);
+    return this.axios["delete"]("shops/".concat(shop_id, "/products/").concat(id, ".json"), data);
+  },
+  // Publish a product
+  publish: function publish(id, notify, shop_id) {
+    shop_id = this.id(shop_id);
+    switch (notify) {
+      case "success":
+        return this.axios.post("shops/".concat(shop_id, "/products/").concat(id, "/publishing_succeeded.json"));
+        break;
+      case "error":
+        return this.axios.post("shops/".concat(shop_id, "/products/").concat(id, "/publishing_failed.json"));
+        break;
+      default:
+        return this.axios.post("shops/".concat(shop_id, "/products/").concat(id, "/publish.json"));
+        break;
+    }
+  }
+};
+module.exports = Product;
+
+/***/ }),
+
+/***/ "./src/webhook.js":
+/*!************************!*\
+  !*** ./src/webhook.js ***!
+  \************************/
+/***/ ((module) => {
+
+var Webhook = function Webhook(axios, shop_id) {
+  this.axios = axios;
+  this.shop_id = shop_id;
+};
+Webhook.prototype = {
+  id: function id(_id) {
+    return _id ? _id : this.shop_id;
+  },
+  // Retrieve a list of webhooks
+  fetch: function fetch(shop_id) {
+    shop_id = this.id(shop_id);
+    return this.axios.get("shops/".concat(shop_id, "/webhooks.json"));
+  },
+  lists: function lists(shop_id) {
+    return this.fetch(shop_id);
+  },
+  // Retrieve a webhook
+  info: function info(id, shop_id) {
+    shop_id = this.id(shop_id);
+    return this.axios.get("shops/".concat(shop_id, "/webhooks/").concat(id, ".json"));
+  },
+  // Create a new webhook
+  create: function create(data, shop_id) {
+    shop_id = this.id(shop_id);
+    return this.axios.post("shops/".concat(shop_id, "/webhooks.json"), data);
+  },
+  // Modify a webhook
+  update: function update(data, shop_id) {
+    shop_id = this.id(shop_id);
+    var id = data.id;
+    return this.axios.post("shops/".concat(shop_id, "/webhooks/").concat(id, ".json"), data);
+  },
+  // Delete a webhook
+  "delete": function _delete(id, shop_id) {
+    shop_id = this.id(shop_id);
+    return this.axios["delete"]("shops/".concat(shop_id, "/webhooks/").concat(id, ".json"));
+  }
+};
+module.exports = Webhook;
+
+/***/ }),
+
+/***/ "axios":
+/*!************************!*\
+  !*** external "axios" ***!
+  \************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("axios");
+
+/***/ }),
+
+/***/ "events":
+/*!*************************!*\
+  !*** external "events" ***!
+  \*************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("events");
+
+/***/ }),
+
+/***/ "util":
+/*!***********************!*\
+  !*** external "util" ***!
+  \***********************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("util");
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module is referenced by other modules so it can't be inlined
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/index.js");
+/******/ 	
+/******/ })()
+;
